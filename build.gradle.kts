@@ -4,25 +4,38 @@ plugins {
     kotlin("jvm") version "1.4.0"
     application
 }
+
 group = "me.artie4"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
+
+object Versions {
+    const val kotlin = "1.4.0"
+    const val jvm = "11"
+}
+
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}")
     testImplementation(kotlin("test-junit5"))
 }
 tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "1.8"
-}
-application {
-    mainClassName = "machine.CoffeeMachineApp"
+    kotlinOptions.jvmTarget = Versions.jvm
 }
 
-tasks.named<Jar>("jar") {
+application {
+    mainClassName = "CoffeeMachineAppKt"
+}
+
+tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = application.mainClassName
+        attributes["Main-Class"] = "machine.${application.mainClassName}"
     }
-    archiveName = "${rootProject.name}-${version}.jar"
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+}
+
+sourceSets.main {
+    java.srcDirs("src/main/kotlin")
 }
