@@ -1,21 +1,14 @@
 package machine.util
 
-import java.io.File
-import java.io.FileInputStream
 import java.util.Properties
 
 
-class ResourceHandler(resourcePath: String) {
+object ResourceHandler {
 
-    private val fis: FileInputStream = FileInputStream(File(resourcePath))
-    private val properties: Properties = Properties()
-
-    init {
-        properties.load(fis)
+    fun getProperties(resourcePath: String): Properties {
+        val inputStream = javaClass.classLoader.getResourceAsStream(resourcePath)
+        inputStream.use {
+            return Properties().apply { load(inputStream) }
+        }
     }
-
-    fun getProperty(key: String): String {
-        return properties.getProperty(key)
-    }
-
 }

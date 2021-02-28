@@ -13,8 +13,8 @@ repositories {
 }
 
 object Versions {
-    const val kotlin = "1.4.0"
-    const val jvm = "11"
+    const val kotlin = "1.4.31"
+    const val jvm = "1.8"
 }
 
 dependencies {
@@ -38,4 +38,8 @@ tasks.withType<Jar> {
 
 sourceSets.main {
     java.srcDirs("src/main/kotlin")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

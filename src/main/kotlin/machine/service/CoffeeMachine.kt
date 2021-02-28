@@ -9,7 +9,7 @@ import machine.util.ResourceHandler
 
 class CoffeeMachine {
 
-    private val properties = ResourceHandler("src/main/resources/coffee-machine-init-state.properties")
+    private val properties = ResourceHandler.getProperties("coffee-machine-init-state.properties")
     private var coffeeMachineState: CoffeeMachineState
     private val scanner = Scanner(System.`in`)
     private var machineEnabled: Boolean = false
